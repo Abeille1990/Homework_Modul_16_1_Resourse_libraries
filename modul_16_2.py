@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Path
+from typing import Annotated
 
 app = FastAPI()
 
@@ -18,7 +19,13 @@ async def welcome_user(userid: int = Path(ge=1, le=100, description="Enter User 
     return {"message": f'Вы вошли как пользователь №{userid}'}
 
 
+# @app.get("/user/{username}/{age}")
+# async def user_info(username: Annotated[str, Path(min_length=5, max_length=20, description="Enter UserName")],
+#                     age: Annotated[int, Path(ge=18, le=120, description="Enter your age")]) -> dict:
+#     return {"Информация о пользователе": f'Имя: {username}. Возраст: {age}'}
+
+
 @app.get("/user/{username}/{age}")
-async def user_info(username: str = Path(min_length=5, max_length=20, description="Enter UserName"),
+async def user_info(username: Annotated[str, Path(min_length=5, max_length=20, description="Enter User Name")],
                     age: int = Path(ge=18, le=120, description="Enter your age")) -> dict:
     return {"Информация о пользователе": f'Имя: {username}. Возраст: {age}'}
